@@ -1,15 +1,16 @@
 class Ambiente():
     def __init__(self):
         self.grilla = [
-            [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-            [0, 1, 0, 1, 0, 1, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],  
-            [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],  
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0, 0, 0, 1, 0, 0]
+            [None, None, None, None, None, None, None, None, None, None],  
+            [None, None, None, None, None, None, None, None, None, None],  
+            [None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None],
+            [None, None, None, None, None, None, None, None, None, None],
         ]
         self.nutrientes = [
             [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
@@ -22,5 +23,5 @@ class Ambiente():
             [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
             [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
         ]
-        # antibioticos
-        self.factor_ambiental = 0  
+        #antibioticos
+        self.factor_ambiental = 0 
