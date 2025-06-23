@@ -23,5 +23,5 @@ class Ambiente():
             [50, 50, 50, 50, 50, 50, 50, 50, 50, 50],
             [50, 50, 50, 50, 50, 50, 50, 50, 50, 50]
         ]
-        #antibioticos
+        # antibioticos
         self.factor_ambiental = 0 
