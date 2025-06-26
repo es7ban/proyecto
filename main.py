@@ -1,5 +1,7 @@
 from bacteria import Bacteria
 from ambiente import Ambiente
+from colonia import Colonia
+from simular import Simular
 
 def crear_bacteria():
     b = Bacteria()
@@ -66,6 +68,7 @@ def ver_grilla(grilla):
 def menu():
     print("1 Agregar bacteria")
     print("2 Mostrar grilla")
+    print("3 Simular pasos")
     print("0  Salir")
 
     opcion = input("Opción: ")
@@ -74,6 +77,9 @@ def menu():
         agregar_bacteria(ambiente.grilla)
     elif opcion == "2":
         ver_grilla(ambiente.grilla)
+    elif opcion == "3":
+        pasos = int(input("¿Cuántos pasos querés simular? "))
+        simulador.run(pasos) 
     elif opcion == "0":
         return False
     else:
@@ -81,7 +87,9 @@ def menu():
 
     return True
 
-ambiente = Ambiente()   
+ambiente = Ambiente()
+colonia = Colonia(ambiente)
+simulador = Simular(ambiente, colonia)
 
 if __name__ == "__main__":
     while True:

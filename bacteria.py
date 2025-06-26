@@ -1,4 +1,6 @@
-class Bacteria:
+import random
+
+class Bacteria():
     def __init__(self):
         self.__id = None
         self.__raza = None
@@ -26,9 +28,9 @@ class Bacteria:
             if isinstance(raza, str):
                 self.__raza = raza
             else:
-                raise TypeError("El tipo de datos no corresponde a String")
+                raise TypeError("El tipo de datos no corresponde a string")
         except TypeError as error:
-            print(f"Error al ingresar raza: {error}")
+            print(f"error al ingresar raza: {error}")
 
     def get_energia(self):
         return self.__energia
@@ -48,7 +50,6 @@ class Bacteria:
         except ValueError as error:
             print(f"Error al ingresar energía: {error}")
 
-   
     def is_resistente(self):
         return self.__resistente
 
@@ -57,7 +58,7 @@ class Bacteria:
             if isinstance(resistente, bool):
                 self.__resistente = resistente
             else:
-                raise TypeError("el tipo de datos no corresponde a boleano")
+                raise TypeError("el tipo de datos no corresponde a booleano")
         except TypeError as error:
             print(f"error al ingresar resistencia: {error}")
 
@@ -73,14 +74,26 @@ class Bacteria:
         except TypeError as error:
             print(f"Error al ingresar estado: {error}")
 
-    def alimentar(self):
-        print
+    def alimentar(self, cantidad=10):
+        if self.__estado != "activa":
+            print(f"Bacteria {self.__id} no está activa, no puede alimentarse.")
+            return
+        if random.random() < 0.8:  # 60% de probabilidad
+            self.__energia += cantidad
+            print(f"Bacteria {self.__id} se alimento")
+        else:
+            print(f"Bacteria {self.__id} no se alimento.")
     
-    def dividierse(self):
-        print
+    def dividir(self):
+        return Bacteria()
 
     def mutar(self):
-        print
+        # sugerencia: probabilidad de ser resistente, no siempre es resistente
+        # entonces, hay que decidir si aquí se hace la probabilidad o en el lugar que se llama a bacteria.mutar()
+        self.__raza = random.choice(["A", "B", "C"])
+        self.__resistente = not self.__resistente
+        print(f"bacteria {self.__id} muto a raza {self.__raza} y cambió resistencia a {self.__resistente}")
     
     def morir(self):
-        print
+        self.__estado = "muerta"
+        print(f"bacteria {self.__id} ha muerto")
