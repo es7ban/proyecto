@@ -90,12 +90,25 @@ class Bacteria():
         return Bacteria()
 
     def mutar(self):
-        # sugerencia: probabilidad de ser resistente, no siempre es resistente
-        # entonces, hay que decidir si aquí se hace la probabilidad o en el lugar que se llama a bacteria.mutar()
-        self.__raza = random.choice(["A", "B", "C"])
-        self.__resistente = not self.__resistente
-        print(f"bacteria {self.__id} muto a raza {self.__raza} y cambió resistencia a {self.__resistente}")
+        if not self.is_resistente():
+            nueva = BacteriaResistente()
+            nueva.set_id(self.get_id())
+            nueva.set_raza(self.get_raza())
+            nueva.set_energia(self.get_energia())
+            print(f"Bacteria {self.get_id()} muto")
+            return nueva
+        else:
+             print(f"Bacteria {self.get_id()} ya es resistente.")
+        return self
     
     def morir(self):
         self.__estado = "muerta"
         print(f"bacteria {self.__id} ha muerto")
+
+class BacteriaResistente(Bacteria):
+    def __init__(self):
+        super().__init__()
+        self.set_resistente(True)
+        self.set_estado("activa")
+        self.set_energia(80)  # mas energia que una bacteria comun
+    

@@ -57,7 +57,10 @@ def ver_grilla(grilla):
             if celda is None:
                 linea += "."
             elif celda.get_estado() == "activa":
-                linea += "A"
+                if celda.is_resistente():
+                    linea += "R"  #bacterias resistentes
+                else:
+                    linea += "A"  
             elif celda.get_estado() == "muerta":
                 linea += "M"
             else:

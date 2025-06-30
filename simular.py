@@ -18,4 +18,10 @@ class Simular():
                     coordenada_y += 1
                 coordenada_x += 1
             
-            print("Fin del proceso")
+        if (i + 1) % 3 == 0:
+            self.ambiente.actualizar_nutrientes()
+            print("Nutrientes actualizados")
+
+        print("Fin del proceso")
+
+        print("Fin del proceso")

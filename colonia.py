@@ -10,6 +10,16 @@ class Colonia():
     def paso(self, celda, x, y):
         if celda is None or celda.get_estado() != "activa":
             return
+        
+        if self.ambiente.factor_ambiental == 1 and not celda.is_resistente():
+            if random.random() < 0.3:
+                celda.morir()
+                print(f"Bacteria {celda.get_id()} murió por antibiótico en ({x}, {y})")
+
+        if celda.get_estado() != "activa":
+            self.ambiente.grilla[x][y] = None
+            return
+
 
         nutrientes_disponibles = self.ambiente.nutrientes[x][y]
         cantidad_a_absorber = min(10, nutrientes_disponibles)
@@ -46,9 +56,15 @@ class Colonia():
             print(f"Bacteria {celda.get_id()} se dividió.")
 
         elif azar < 0.9:
-            celda.mutar()
-            print(f"Bacteria {celda.get_id()} mutó.")
-
-        else:
+            nueva = celda.mutar()
+            self.ambiente.grilla[x][y] = nueva
+            print(f"Bacteria {nueva.get_id()} mutó en ({x}, {y})")
+        
+        if celda.get_energia() <= 0:
             celda.morir()
-            print(f"Bacteria {celda.get_id()} murió.")
+            print(f"Bacteria {celda.get_id()} murió por falta de energía en ({x}, {y})")
+
+       
+        if celda.get_estado() == "muerta":
+            self.ambiente.grilla[x][y] = None
+            print(f"Bacteria eliminada de la grilla en ({x}, {y})")
