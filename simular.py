@@ -18,4 +18,4 @@ class Simular():
                     coordenada_y += 1
                 coordenada_x += 1
             
-            print("Fin del paso")
+            print("Fin del proceso")

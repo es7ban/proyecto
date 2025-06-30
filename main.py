@@ -19,7 +19,7 @@ def crear_bacteria():
             b.set_raza("A")
             b.set_energia(60)
             b.set_resistente(False)
-            break
+            break       
         elif tipo == "2":
             b.set_id(2)
             b.set_raza("B")
@@ -78,7 +78,7 @@ def menu():
     elif opcion == "2":
         ver_grilla(ambiente.grilla)
     elif opcion == "3":
-        pasos = int(input("¿Cuántos pasos querés simular? "))
+        pasos = int(input("¿Cuántos pasos vas a simular? "))
         simulador.run(pasos) 
     elif opcion == "0":
         return False

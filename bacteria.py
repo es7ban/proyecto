@@ -74,11 +74,13 @@ class Bacteria():
         except TypeError as error:
             print(f"Error al ingresar estado: {error}")
 
-    def alimentar(self, cantidad=10):
+    def alimentar(self, cantidad):
         if self.__estado != "activa":
-            print(f"Bacteria {self.__id} no está activa, no puede alimentarse.")
             return
-        if random.random() < 0.8:  # 60% de probabilidad
+        self.__energia += cantidad
+        
+        print(f"Bacteria {self.__id} ganó {cantidad} de energía (total: {self.__energia}).")
+        if random.random() < 0.8:  
             self.__energia += cantidad
             print(f"Bacteria {self.__id} se alimento")
         else:
