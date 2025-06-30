@@ -58,8 +58,9 @@ class Colonia():
         elif azar < 0.9:
             nueva = celda.mutar()
             self.ambiente.grilla[x][y] = nueva
+            celda = nueva # el resto del paso siga usando la bacteria mutada
             print(f"Bacteria {nueva.get_id()} mutó en ({x}, {y})")
-        
+                
         if celda.get_energia() <= 0:
             celda.morir()
             print(f"Bacteria {celda.get_id()} murió por falta de energía en ({x}, {y})")

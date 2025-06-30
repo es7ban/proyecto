@@ -87,7 +87,12 @@ class Bacteria():
             print(f"Bacteria {self.__id} no se alimento.")
     
     def dividir(self):
-        return Bacteria()
+        hija = BacteriaResistente() if self.is_resistente() else Bacteria()
+        hija.set_id(self.get_id())
+        hija.set_raza(self.get_raza())
+        hija.set_energia(self.get_energia() // 2)
+        self.set_energia(self.get_energia() // 2)
+        return hija
 
     def mutar(self):
         if not self.is_resistente():

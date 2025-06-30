@@ -72,6 +72,8 @@ def menu():
     print("1 Agregar bacteria")
     print("2 Mostrar grilla")
     print("3 Simular pasos")
+    print("4 Activar antibióticos")
+    print("5 Desactivar antibióticos")
     print("0  Salir")
 
     opcion = input("Opción: ")
@@ -85,9 +87,14 @@ def menu():
         simulador.run(pasos) 
     elif opcion == "0":
         return False
+    elif opcion == "4":
+        ambiente.factor_ambiental = 1
+        print("antibioticos presente")
+    elif opcion == "5":
+        ambiente.factor_ambiental = 0
+        print("antibioticos no presente")
     else:
         print("Opción invalida.")
-
     return True
 
 ambiente = Ambiente()
