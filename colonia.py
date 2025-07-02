@@ -10,22 +10,18 @@ class Colonia():
         if celda is None or celda.get_estado() != "activa":
             return
 
-        # Gasto basal de energía por existir
+        # Gasto basal de energía
         celda.set_energia(celda.get_energia() - 5)
-        print(f"Bacteria {celda.get_id()} perdió 5 de energía al existir (ahora tiene {celda.get_energia()})")
+        print(f"Bacteria {celda.get_id()} perdió 5 de energía (ahora tiene {celda.get_energia()})")
 
-        # Muerte por antibióticos
-        if self.ambiente.factor_ambiental == 1 and not celda.is_resistente():
-            if random.random() < 0.3:
-                celda.morir()
-                print(f"Bacteria {celda.get_id()} murió por antibiótico en ({x}, {y})")
-
-        # Remover si murió antes de seguir
-        if celda.get_estado() != "activa":
+        # Muerte por agotamiento de energia
+        if celda.get_energia() <= 0:
+            celda.morir()
+            print(f"Bacteria {celda.get_id()} murió por falta de energía en ({x}, {y})")
             self.ambiente.grilla[x][y] = None
             return
 
-        # Alimentación
+        # Alimentacion
         nutrientes_disponibles = self.ambiente.nutrientes[x][y]
         cantidad_a_absorber = min(10, nutrientes_disponibles)
         azar = random.random()
@@ -34,16 +30,17 @@ class Colonia():
             if cantidad_a_absorber > 0 and random.random() < 0.8:
                 celda.alimentar(cantidad_a_absorber)
                 self.ambiente.nutrientes[x][y] -= cantidad_a_absorber
-                print(f"Bacteria {celda.get_id()} se alimentó con {cantidad_a_absorber} nutrientes en ({x},{y})")
+                print(f"Bacteria {celda.get_id()} se alimentó con {cantidad_a_absorber} en ({x},{y})")
             else:
                 print(f"Bacteria {celda.get_id()} no logró alimentarse en ({x},{y})")
 
+        # Division
         elif azar < 0.7:
             hija = celda.dividir()
-            if x + 1 < len(self.ambiente.grilla) and self.ambiente.grilla[x + 1][y] is None:
+            if x + 1 < 10 and self.ambiente.grilla[x + 1][y] is None:
                 self.ambiente.grilla[x + 1][y] = hija
                 print(f"Hija colocada en ({x + 1}, {y})")
-            elif y + 1 < len(self.ambiente.grilla[0]) and self.ambiente.grilla[x][y + 1] is None:
+            elif y + 1 < 10 and self.ambiente.grilla[x][y + 1] is None:
                 self.ambiente.grilla[x][y + 1] = hija
                 print(f"Hija colocada en ({x}, {y + 1})")
             elif x - 1 >= 0 and self.ambiente.grilla[x - 1][y] is None:
@@ -53,20 +50,12 @@ class Colonia():
                 self.ambiente.grilla[x][y - 1] = hija
                 print(f"Hija colocada en ({x}, {y - 1})")
             else:
-                print("No hubo espacio disponible para colocar la bacteria hija.")
+                print("No hubo espacio disponible para la hija.")
             print(f"Bacteria {celda.get_id()} se dividió.")
 
+        # Mutacion
         elif azar < 0.9:
             nueva = celda.mutar()
             self.ambiente.grilla[x][y] = nueva
             celda = nueva
             print(f"Bacteria {nueva.get_id()} mutó en ({x}, {y})")
-
-        # Muerte por energía agotada
-        if celda.get_energia() <= 0:
-            celda.morir()
-            print(f"Bacteria {celda.get_id()} murió por falta de energía en ({x}, {y})")
-
-        if celda.get_estado() == "muerta":
-            self.ambiente.grilla[x][y] = None
-            print(f"Bacteria eliminada de la grilla en ({x}, {y})")

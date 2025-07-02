@@ -45,6 +45,7 @@ class Bacteria():
                     raise ValueError("La energia no puede ser negativa")
             else:
                 raise TypeError("El tipo de datos no corresponde a Integer")
+            
         except TypeError as error:
             print(f"Error al ingresar energía: {error}")
         except ValueError as error:
