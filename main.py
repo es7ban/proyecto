@@ -1,138 +1,48 @@
+import gi
+gi.require_version("Gtk", "4.0")
+from gi.repository import Gtk
 import random
-import matplotlib.pyplot as plt
-from matplotlib.patches import Patch
 from bacteria import Bacteria
 from ambiente import Ambiente
 from colonia import Colonia
 from simular import Simular
+from visualizador import visualizar_grilla
 
-# Visualizarde la grilla
-def visualizar_grilla(ambiente):
-    grilla = ambiente.grilla
-    matriz = []
-    for fila in grilla:
-        fila_numerica = []
-        for celda in fila:
-            if celda is None:
-                fila_numerica.append(0)
-            elif celda.get_estado() == "muerta":
-                fila_numerica.append(2)
-            elif celda.is_resistente():
-                fila_numerica.append(3)
-            else:
-                fila_numerica.append(1)
-        matriz.append(fila_numerica)
 
-    fig, ax = plt.subplots(figsize=(6, 6))
-    cmap = plt.cm.get_cmap('Set1', 5)
-    cax = ax.matshow(matriz, cmap=cmap)
+class SimuladorApp(Gtk.Application):
+    def __init__(self):
+        super().__init__(application_id="org.simulador.bacterias")
+        self.ambiente = Ambiente()
+        self.colonia = Colonia(self.ambiente)
+        self.simulador = Simular(self.ambiente, self.colonia)
 
-    legend_elements = [
-        Patch(facecolor=cmap(1 / 5), label='Bacteria activa'),
-        Patch(facecolor=cmap(2 / 5), label='Bacteria muerta'),
-        Patch(facecolor=cmap(3 / 5), label='Bacteria resistente'),
-        Patch(facecolor=cmap(4 / 5), label='Biofilm (opcional)')
-    ]
-    ax.legend(handles=legend_elements, loc='upper right', bbox_to_anchor=(1.4, 1))
-    ax.set_xticks(range(len(matriz[0])))
-    ax.set_yticks(range(len(matriz)))
-    ax.set_xticklabels([])
-    ax.set_yticklabels([])
-    ax.grid(color='gray', linestyle='-', linewidth=0.5)
+    def do_activate(self):
+        ventana = Gtk.ApplicationWindow(application=self)
+        ventana.set_title("Simulador Bacterias")
+        ventana.set_default_size(400, 300)
 
-    for i in range(len(matriz)):
-        for j in range(len(matriz[0])):
-            val = matriz[i][j]
-            if val > 0:
-                ax.text(j, i, str(val), va='center', ha='center', color='white')
+        # HeaderBar con boton para ver grilla
+        header = Gtk.HeaderBar()
+        header.set_title_widget(Gtk.Label(label="Simulador de bacterias"))
+        ventana.set_titlebar(header)
 
-    plt.title("Grilla bacteriana (visualización)")
-    plt.tight_layout()
-    plt.show()
+        boton_grilla = Gtk.Button(label="Mostrar grilla")
+        boton_grilla.connect("clicked", self.on_mostrar_grilla)
+        header.pack_end(boton_grilla)
 
-#Crear bacteria
-def crear_bacteria():
-    b = Bacteria()
-    print("\nSeleccione el tipo de bacteria:")
-    print("1  Tipo A (energía 60)")
-    print("2  Tipo B (energía 40, resistente)")
-    print("3  Tipo C (energía 20)")
+        # Texto de bienvenida
+        etiqueta = Gtk.Label(label="Haz clic en 'Mostrar grilla' para ver el entorno.")
+        etiqueta.set_margin_top(30)
+        etiqueta.set_margin_bottom(30)
+        etiqueta.set_wrap(True)
+        etiqueta.set_justify(Gtk.Justification.CENTER)
+        ventana.set_child(etiqueta)
 
-    while True:
-        tipo = input("Opción: ")
-        if tipo == "1":
-            b.set_id(1)
-            b.set_raza("A")
-            b.set_energia(60)
-            b.set_resistente(False)
-            break
-        elif tipo == "2":
-            b.set_id(2)
-            b.set_raza("B")
-            b.set_energia(40)
-            b.set_resistente(True)
-            break
-        elif tipo == "3":
-            b.set_id(3)
-            b.set_raza("C")
-            b.set_energia(20)
-            b.set_resistente(False)
-            break
-        else:
-            print("Opción no válida. Ingrese 1, 2 o 3.")
+        ventana.present()
 
-    b.set_estado("activa")
-    return b
-
-def agregar_bacteria(grilla):
-    b = crear_bacteria()
-    vacias = [(x, y) for x in range(len(grilla)) for y in range(len(grilla[0])) if grilla[x][y] is None]
-
-    if not vacias:
-        print("no hay espacio para la bacteria.")
-        return
-
-    x, y = random.choice(vacias)
-    grilla[x][y] = b
-    print(f"Bacteria {b.get_id()} ubicada automáticamente en ({x}, {y})\n")
-
-# mmenu
-def menu():
-    print("\nMenú Principal")
-    print("1 Agregar bacteria")
-    print("2 Simular pasos")
-    print("3 Visualizar grilla con colores")
-    print("4 Activar antibióticos")
-    print("5 Desactivar antibióticos")
-    print("0 Salir")
-
-    opcion = input("Opcion:")
-
-    if opcion == "1":
-        agregar_bacteria(ambiente.grilla)
-    elif opcion == "2":
-        pasos = int(input("¿Cuántos pasos vas a simular? "))
-        simulador.run(pasos)
-    elif opcion == "3":
-        visualizar_grilla(ambiente)
-    elif opcion == "4":
-        ambiente.factor_ambiental = 1
-        print("antibioticos activado")
-    elif opcion == "5":
-        ambiente.factor_ambiental = 0
-        print("antibioticos desactivado")
-    elif opcion == "0":
-        return False
-    else:
-        print("Opción inválida.")
-    return True
-
-#iniciar el sistema
-ambiente = Ambiente()
-colonia = Colonia(ambiente)
-simulador = Simular(ambiente, colonia)
+    def on_mostrar_grilla(self, _):
+        visualizar_grilla(self.ambiente)
 
 if __name__ == "__main__":
-    while True:
-        if not menu():
-            break
+    app = SimuladorApp()
+    app.run(None)
