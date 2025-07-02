@@ -49,6 +49,7 @@ class Ambiente():
         self.nutrientes = nueva_matriz
 
     def aplicar_ambiente(self):
+        eliminadas = 0
         self.actualizar_nutrientes()
         self.difundir_nutrientes()
 
@@ -58,4 +59,7 @@ class Ambiente():
                     celda = self.grilla[x][y]
                     if celda and celda.get_estado() == "activa" and not celda.is_resistente():
                         celda.morir()
-                        print(f"Bacteria {celda.get_id()} eliminada por antibiotico en ({x}, {y})")
+                        self.grilla[x][y] = None
+                        eliminadas += 1
+                        print(f"Bacteria {celda.get_id()} eliminada por antibiótico en ({x}, {y})")
+        return eliminadas
