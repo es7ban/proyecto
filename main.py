@@ -15,6 +15,7 @@ class SimuladorApp(Gtk.Application):
         self.ambiente = Ambiente()
         self.colonia = Colonia(self.ambiente)
         self.simulador = Simular(self.ambiente, self.colonia)
+        self.label_estado = Gtk.Label(label="Estado de la colonia")
 
     def do_activate(self):
         self.ventana = Gtk.ApplicationWindow(application=self)
@@ -36,6 +37,10 @@ class SimuladorApp(Gtk.Application):
         btn_simular.connect("clicked", self.on_simular_pasos)
         header.pack_start(btn_simular)
 
+        btn_aplicar_ambiente = Gtk.Button(label="Aplicar ambiente")
+        btn_aplicar_ambiente.connect("clicked", self.on_aplicar_ambiente)
+        header.pack_start(btn_aplicar_ambiente)
+
         self.imagen = Gtk.Picture()
         self.imagen.set_halign(Gtk.Align.FILL)
         self.imagen.set_valign(Gtk.Align.FILL)
@@ -43,12 +48,24 @@ class SimuladorApp(Gtk.Application):
         self.imagen.set_vexpand(True)
         main_box.append(self.imagen)
 
+        main_box.append(self.label_estado)
+
         self.actualizar_imagen()
+        self.actualizar_estado()
         self.ventana.present()
 
     def actualizar_imagen(self):
         pixbuf = visualizar_grilla(self.ambiente)
         self.imagen.set_pixbuf(pixbuf)
+
+    def actualizar_estado(self):
+        resumen = self.colonia.reporte_estado()
+        self.label_estado.set_label(resumen)
+
+    def on_aplicar_ambiente(self, _):
+        self.ambiente.aplicar_ambiente()
+        self.actualizar_imagen()
+        self.actualizar_estado()
 
     def on_agregar_bacteria(self, _):
         dialogo = Gtk.Dialog(title="Selecciona tipo de bacteria", transient_for=self.ventana)
@@ -90,12 +107,13 @@ class SimuladorApp(Gtk.Application):
             self.ambiente.grilla[x][y] = b
         dialogo.close()
         self.actualizar_imagen()
+        self.actualizar_estado()
 
     def on_simular_pasos(self, _):
         dialogo = Gtk.Dialog(title="Simular pasos", transient_for=self.ventana)
         box = dialogo.get_content_area()
 
-        label = Gtk.Label(label="¿Cuantos pasos quieres simular?")
+        label = Gtk.Label(label="¿Cuántos pasos quieres simular?")
         box.append(label)
 
         entrada = Gtk.Entry()
@@ -110,6 +128,7 @@ class SimuladorApp(Gtk.Application):
                     self.simulador.run(pasos)
                     dialogo.close()
                     self.actualizar_imagen()
+                    self.actualizar_estado()
             except ValueError:
                 print("Número inválido.")
 
