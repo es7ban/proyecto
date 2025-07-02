@@ -75,8 +75,8 @@ class SimuladorApp(Gtk.Application):
         box.append(info)
 
         tipos = {
-            "Tipo A (energía 60)": (1, "A", 45, False),
-            "Tipo B (energía 40, resistente)": (2, "B", 35, True),
+            "Tipo A (energía 45)": (1, "A", 45, False),
+            "Tipo B (energía 35, resistente)": (2, "B", 35, True),
             "Tipo C (energía 20)": (3, "C", 20, False)
         }
 

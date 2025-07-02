@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from datetime import datetime
 
 class Simular:
     def __init__(self, ambiente, colonia):
@@ -18,7 +19,6 @@ class Simular:
             mutaciones = 0
             muertes_antibiotico = 0
 
-            # Recorremos la grilla y procesamos cada celda
             for x, fila in enumerate(self.ambiente.grilla):
                 for y, celda in enumerate(fila):
                     print(f"Revisando actualmente la celda ({x}, {y})")
@@ -31,17 +31,13 @@ class Simular:
                     elif resultado == "mutacion":
                         mutaciones += 1
 
-            # Cada 3 pasos se aplica antibiótico (si está activo)
             if (i + 1) % 3 == 0:
                 muertes_antibiotico = self.ambiente.aplicar_ambiente()
 
-            # Registrar el estado para análisis posterior
             estado = self.colonia.reporte_estado_dict()
             estado["paso"] = i + 1
             self.historial.append(estado)
 
-            # Construir narración del paso
-            linea = f"Paso {i+1}: "
             eventos = []
             if divisiones:
                 eventos.append(f"{divisiones} divisiones")
@@ -51,11 +47,13 @@ class Simular:
                 eventos.append(f"{muertes_antibiotico} muertes por antibiótico")
             if mutaciones:
                 eventos.append(f"{mutaciones} mutaciones")
-            linea += "; ".join(eventos) + "."
+
+            linea = f"Paso {i + 1}: " + "; ".join(eventos) + "."
             self.narracion.append(linea)
 
         print("Fin del proceso")
         self.exportar_txt()
+        self.graficar_crecimiento()
 
     def exportar_txt(self, archivo="reporte_simulacion.txt"):
         if not self.historial:
@@ -87,20 +85,31 @@ class Simular:
         pasos = [h["paso"] for h in self.historial]
         activas = [h["activas"] for h in self.historial]
         resistentes = [h["resistentes"] for h in self.historial]
+        porcentaje_resistentes = [
+            (r / a) * 100 if a > 0 else 0 for a, r in zip(activas, resistentes)
+        ]
 
-        plt.figure(figsize=(8, 5))
-        plt.plot(pasos, activas, label="Activas", color="green", marker="o")
-        plt.plot(pasos, resistentes, label="Resistentes", color="orange", marker="x")
-        plt.title("Crecimiento de la colonia bacteriana")
-        plt.xlabel("Paso")
-        plt.ylabel("Cantidad de bacterias")
-        plt.legend()
-        plt.grid(True)
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(8, 8), sharex=True)
+
+        ax1.plot(pasos, activas, label="Activas", color="green", marker="o")
+        ax1.plot(pasos, resistentes, label="Resistentes", color="orange", marker="x")
+        ax1.set_title("Crecimiento bacteriano")
+        ax1.set_ylabel("Cantidad")
+        ax1.grid(True)
+        ax1.legend()
+
+        ax2.plot(pasos, porcentaje_resistentes, label="% Resistentes", color="blue", marker="s")
+        ax2.set_title("Proporción de bacterias resistentes")
+        ax2.set_xlabel("Paso")
+        ax2.set_ylabel("Porcentaje (%)")
+        ax2.grid(True)
+        ax2.legend()
+
         plt.tight_layout()
 
-        # Guardar el gráfico como imagen
-        plt.savefig("grafico_crecimiento.png")
-        print("Gráfico guardado como 'grafico_crecimiento.png'")
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        nombre_archivo = f"grafico_combinado_{timestamp}.png"
+        plt.savefig(nombre_archivo)
+        print(f"Gráfico combinado guardado como '{nombre_archivo}'")
 
-        # Mostrar ventana emergente con el gráfico
         plt.show()

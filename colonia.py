@@ -36,7 +36,7 @@ class Colonia():
                 print(f"Bacteria {celda.get_id()} no logró alimentarse en ({x},{y})")
 
         # Division
-        elif azar < 0.3:
+        elif azar < 0.7:
             hija = celda.dividir()
             if x + 1 < 10 and self.ambiente.grilla[x + 1][y] is None:
                 self.ambiente.grilla[x + 1][y] = hija
