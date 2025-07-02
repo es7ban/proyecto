@@ -19,7 +19,7 @@ def visualizar_grilla(ambiente):
                 fila_numerica.append(1)
         matriz.append(fila_numerica)
 
-    fig, ax = plt.subplots(figsize=(8, 8), dpi=100)
+    fig, ax = plt.subplots(figsize=(10, 10), dpi=100)
     cmap = plt.cm.get_cmap('Set1', 5)
     ax.matshow(matriz, cmap=cmap)
 

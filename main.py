@@ -9,7 +9,6 @@ from colonia import Colonia
 from simular import Simular
 from visualizador import visualizar_grilla
 
-
 class SimuladorApp(Gtk.Application):
     def __init__(self):
         super().__init__(application_id="org.simulador.bacterias")
@@ -19,14 +18,14 @@ class SimuladorApp(Gtk.Application):
 
     def do_activate(self):
         self.ventana = Gtk.ApplicationWindow(application=self)
-        self.ventana.set_title("Simulador Bacterias")
+        self.ventana.set_title("Simulador Bacteriano")
         self.ventana.set_default_size(900, 1000)
 
         main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.ventana.set_child(main_box)
 
         header = Gtk.HeaderBar()
-        header.set_title_widget(Gtk.Label(label="Simulador Bacterias"))
+        header.set_title_widget(Gtk.Label(label="Simulador de bacterias"))
         self.ventana.set_titlebar(header)
 
         btn_agregar = Gtk.Button(label="Agregar bacteria")
@@ -96,7 +95,7 @@ class SimuladorApp(Gtk.Application):
         dialogo = Gtk.Dialog(title="Simular pasos", transient_for=self.ventana)
         box = dialogo.get_content_area()
 
-        label = Gtk.Label(label="¿Cuántos pasos querés simular?")
+        label = Gtk.Label(label="¿Cuantos pasos quieres simular?")
         box.append(label)
 
         entrada = Gtk.Entry()
