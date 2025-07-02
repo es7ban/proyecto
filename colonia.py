@@ -36,7 +36,7 @@ class Colonia():
                 print(f"Bacteria {celda.get_id()} no logró alimentarse en ({x},{y})")
 
         # Division
-        elif azar < 0.7:
+        elif azar < 0.3:
             hija = celda.dividir()
             if x + 1 < 10 and self.ambiente.grilla[x + 1][y] is None:
                 self.ambiente.grilla[x + 1][y] = hija
@@ -55,7 +55,7 @@ class Colonia():
             print(f"Bacteria {celda.get_id()} se dividió.")
 
         # Mutacion
-        elif azar < 0.9:
+        elif azar < 0.1:
             nueva = celda.mutar()
             self.ambiente.grilla[x][y] = nueva
             celda = nueva
@@ -97,6 +97,12 @@ class Colonia():
                             resistentes += 1
                     elif celda.get_estado() == "muerta":
                         muertas += 1
+        
+        return {
+            "activas": activas,
+            "muertas": muertas,
+            "resistentes": resistentes
+        }
     
     def exportar_csv(self, historial, nombre_archivo="historial_simulacion.csv"):
         if not historial:

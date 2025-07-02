@@ -25,7 +25,7 @@ class Ambiente():
             [50, 50, 50, 50, 50 ,50 ,50 ,50, 50, 50],
         ]
         # antibioticos
-        self.factor_ambiental = 0 
+        self.factor_ambiental = 1
     
     def actualizar_nutrientes(self, cantidad=5, max_nutrientes=50):
         for x in range(10):

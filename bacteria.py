@@ -116,5 +116,5 @@ class BacteriaResistente(Bacteria):
         super().__init__()
         self.set_resistente(True)
         self.set_estado("activa")
-        self.set_energia(60)  # mas energia que una bacteria comun
+        self.set_energia(50)  # mas energia que una bacteria comun
     
