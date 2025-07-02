@@ -18,3 +18,20 @@ class Simular():
                 self.ambiente.aplicar_ambiente()
 
         print("Fin del proceso")
+
+    def exportar_txt(self, archivo="reporte_simulacion.txt"):
+        if not self.historial:
+            print("No hay historial para exportar.")
+            return
+
+        with open(archivo, "w") as f:
+            for estado in self.historial:
+                linea = (
+                    f"Paso {estado['paso']} - "
+                    f"Activas: {estado['activas']} | "
+                    f"Muertas: {estado['muertas']} | "
+                    f"Resistentes: {estado['resistentes']}\n"
+                )
+                f.write(linea)
+
+        print(f"📄 Reporte guardado en {archivo}")

@@ -1,3 +1,4 @@
+import pandas as pd
 import random
 
 class Colonia():
@@ -75,6 +76,18 @@ class Colonia():
                     elif celda.get_estado() == "muerta":
                         muertas += 1
 
-        print(f"Bacterias activas: {activas}")
-        print(f"Bacterias muertas: {muertas}")
-        print(f"Resistentes vivas: {resistentes}")
+        return (
+            f"Estado actual de la colonia:\n\n"
+            f"Bacterias activas: {activas}\n"
+            f"Bacterias muertas: {muertas}\n"
+            f"Resistentes activas: {resistentes}"
+        )
+    
+    def exportar_csv(self, historial, nombre_archivo="historial_simulacion.csv"):
+        if not historial:
+            print("No hay datos para exportar.")
+            return
+
+        df = pd.DataFrame(historial)
+        df.to_csv(nombre_archivo, index=False)
+        print(f"Historial exportado como {nombre_archivo}")
