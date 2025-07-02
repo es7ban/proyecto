@@ -34,4 +34,4 @@ class Simular():
                 )
                 f.write(linea)
 
-        print(f"📄 Reporte guardado en {archivo}")
+        print(f"Reporte guardado en {archivo}")

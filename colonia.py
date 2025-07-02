@@ -83,6 +83,21 @@ class Colonia():
             f"Resistentes activas: {resistentes}"
         )
     
+    def reporte_estado_dict(self):
+        activas = 0
+        muertas = 0
+        resistentes = 0
+
+        for fila in self.ambiente.grilla:
+            for celda in fila:
+                if celda:
+                    if celda.get_estado() == "activa":
+                        activas += 1
+                        if celda.is_resistente():
+                            resistentes += 1
+                    elif celda.get_estado() == "muerta":
+                        muertas += 1
+    
     def exportar_csv(self, historial, nombre_archivo="historial_simulacion.csv"):
         if not historial:
             print("No hay datos para exportar.")
