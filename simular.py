@@ -77,7 +77,7 @@ class Simular:
             for linea in self.narracion:
                 f.write(linea + "\n")
 
-        print(f"📄 Reporte completo guardado en {archivo}")
+        print(f"Reporte completo guardado en {archivo}")
 
     def graficar_crecimiento(self):
         if not self.historial:
@@ -97,4 +97,10 @@ class Simular:
         plt.legend()
         plt.grid(True)
         plt.tight_layout()
+
+        # Guardar el gráfico como imagen
+        plt.savefig("grafico_crecimiento.png")
+        print("Gráfico guardado como 'grafico_crecimiento.png'")
+
+        # Mostrar ventana emergente con el gráfico
         plt.show()
