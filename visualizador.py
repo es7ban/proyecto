@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
+from io import BytesIO
+from gi.repository import GdkPixbuf
 
 def visualizar_grilla(ambiente):
     grilla = ambiente.grilla
@@ -17,15 +19,15 @@ def visualizar_grilla(ambiente):
                 fila_numerica.append(1)
         matriz.append(fila_numerica)
 
-    fig, ax = plt.subplots(figsize=(6, 6))
+    fig, ax = plt.subplots(figsize=(8, 8), dpi=100)
     cmap = plt.cm.get_cmap('Set1', 5)
-    cax = ax.matshow(matriz, cmap=cmap)
+    ax.matshow(matriz, cmap=cmap)
 
     legend_elements = [
         Patch(facecolor=cmap(1 / 5), label='Bacteria activa'),
         Patch(facecolor=cmap(2 / 5), label='Bacteria muerta'),
         Patch(facecolor=cmap(3 / 5), label='Bacteria resistente'),
-         Patch(facecolor=cmap(4/5), label='Biofilm'),
+        Patch(facecolor=cmap(4 / 5), label='Biofilm')
     ]
     ax.legend(handles=legend_elements, loc='upper right', bbox_to_anchor=(1.4, 1))
     ax.set_xticks(range(len(matriz[0])))
@@ -40,6 +42,13 @@ def visualizar_grilla(ambiente):
             if val > 0:
                 ax.text(j, i, str(val), va='center', ha='center', color='white')
 
-    plt.title("Grilla (visualizacion)")
+    buf = BytesIO()
     plt.tight_layout()
-    plt.show()
+    fig.savefig(buf, format='png')
+    buf.seek(0)
+    plt.close(fig)
+
+    loader = GdkPixbuf.PixbufLoader.new_with_type("png")
+    loader.write(buf.read())
+    loader.close()
+    return loader.get_pixbuf()
