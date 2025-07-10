@@ -27,14 +27,12 @@ def visualizar_grilla(ambiente):
         Patch(facecolor=cmap(1 / 5), label='Bacteria activa'),
         Patch(facecolor=cmap(2 / 5), label='Bacteria muerta'),
         Patch(facecolor=cmap(3 / 5), label='Bacteria resistente'),
-        Patch(facecolor=cmap(4 / 5), label='Biofilm')
     ]
     ax.legend(handles=legend_elements, loc='upper right', bbox_to_anchor=(1.4, 1))
     ax.set_xticks(range(len(matriz[0])))
     ax.set_yticks(range(len(matriz)))
     ax.set_xticklabels([])
     ax.set_yticklabels([])
-    ax.grid(color='gray', linestyle='-', linewidth=0.5)
 
     for i in range(len(matriz)):
         for j in range(len(matriz[0])):

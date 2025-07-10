@@ -1,0 +1,52 @@
+=== Estado actual de la colonia ===
+
+Estado actual de la colonia:
+
+Bacterias activas: 0
+Bacterias muertas: 0
+Resistentes activas: 0
+
+=== Detalle de bacterias activas ===
+
+
+=== Narración de la simulación ===
+
+Paso 1: .
+Paso 2: 1 divisiones.
+Paso 3: 2 divisiones; 1 muertes por inanición.
+Paso 4: 3 muertes por inanición.
+Paso 5: .
+Paso 6: .
+Paso 7: .
+Paso 8: .
+Paso 9: .
+Paso 10: .
+Paso 11: .
+Paso 12: .
+Paso 13: .
+Paso 14: .
+Paso 15: .
+Paso 16: .
+Paso 17: .
+Paso 18: .
+Paso 19: .
+Paso 20: .
+Paso 21: .
+Paso 22: .
+Paso 23: .
+Paso 24: .
+Paso 25: .
+Paso 26: .
+Paso 27: .
+Paso 28: .
+Paso 29: .
+Paso 30: .
+Paso 31: .
+Paso 32: .
+Paso 33: .
+Paso 34: .
+Paso 35: .
+Paso 36: .
+Paso 37: .
+Paso 38: .
+Paso 39: .
